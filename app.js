@@ -20,10 +20,10 @@ setInterval(function() {
   });
   var rand = Math.random();
   
-  if(rand <= .30) {      
+  if(rand <= .40) {      
     // favorite popular hamster tweets
     var params = {
-        q: 'hamster'
+        q: 'web development'
       , since: datestring()
       , result_type: 'mixed'
       , limit: 10
@@ -59,12 +59,21 @@ setInterval(function() {
 
       var fparams = {
         id: temp_tweet.id
+      } 
+      if(rand <= .30) {
+        bot.twit.post('favorites/create', fparams, function(err2, reply2) {
+          if(err2) 
+            return handleError(err2);
+          console.log("Favorite response: " + reply2);
+        });
+      } else {
+        bot.twit.post('statuses/retweet', fparams, function(err2, reply2) {
+          if(err2)
+            return handleError(err2);
+          console.log("Retweet response: " + reply2);
+        });
       }
-      bot.twit.post('favorites/create', fparams, function(err2, reply2) {
-        if(err2) 
-          return handleError(err2);
-        console.log("Create reply: " + reply2);
-      });
+
 
     });
 
